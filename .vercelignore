@@ -1,0 +1,13 @@
+.git
+.github
+.env
+.env.*
+tests
+*.docx
+/node_modules
+/vendor
+.phpunit.cache
+.phpunit.result.cache
+phpstan.neon
+phpunit.xml
+pint.json

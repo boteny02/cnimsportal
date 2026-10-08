@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.9.0",
+      "memory": 1024,
+      "maxDuration": 15
+    }
+  },
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "dest": "/public/build/$1"
+    },
+    {
+      "src": "/(css|js|images|fonts|icons)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(favicon\\.(ico|svg)|robots\\.txt|apple-touch-icon\\.png)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_CONFIG_CACHE": "/tmp/storage/bootstrap/cache/config.php",
+    "APP_EVENTS_CACHE": "/tmp/storage/bootstrap/cache/events.php",
+    "APP_PACKAGES_CACHE": "/tmp/storage/bootstrap/cache/packages.php",
+    "APP_ROUTES_CACHE": "/tmp/storage/bootstrap/cache/routes.php",
+    "APP_SERVICES_CACHE": "/tmp/storage/bootstrap/cache/services.php",
+    "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+    "CACHE_STORE": "array",
+    "SESSION_DRIVER": "cookie",
+    "LOG_CHANNEL": "stderr",
+    "VERCEL": "1"
+  }
+}
