@@ -18,16 +18,38 @@ foreach ($storageDirs as $dir) {
     }
 }
 
-// Ensure SQLite database file exists in /tmp if sqlite is used
-if (getenv('DB_CONNECTION') === 'sqlite' || (!getenv('DB_CONNECTION') && getenv('DB_DATABASE') === '/tmp/database.sqlite')) {
-    if (!file_exists('/tmp/database.sqlite')) {
-        $localDb = __DIR__ . '/../database/database.sqlite';
-        if (file_exists($localDb) && filesize($localDb) > 0) {
-            @copy($localDb, '/tmp/database.sqlite');
-        } else {
-            @touch('/tmp/database.sqlite');
-        }
+// Ensure application key exists so Laravel does not fail with MissingAppKeyException
+if (!getenv('APP_KEY') && empty($_SERVER['APP_KEY']) && empty($_ENV['APP_KEY'])) {
+    $fallbackKey = 'base64:/Kcg3RB4SF42k+7HS+2QbEeUx4m1oow79juF6m3ydvg=';
+    putenv("APP_KEY={$fallbackKey}");
+    $_ENV['APP_KEY'] = $fallbackKey;
+    $_SERVER['APP_KEY'] = $fallbackKey;
+}
+
+// Ensure SQLite database file exists in /tmp with seed data
+$tmpDb = '/tmp/database.sqlite';
+if (!file_exists($tmpDb) || filesize($tmpDb) === 0) {
+    $seedDb = __DIR__ . '/../database/seed_database.sqlite';
+    $localDb = __DIR__ . '/../database/database.sqlite';
+    if (file_exists($seedDb) && filesize($seedDb) > 0) {
+        @copy($seedDb, $tmpDb);
+    } elseif (file_exists($localDb) && filesize($localDb) > 0) {
+        @copy($localDb, $tmpDb);
+    } else {
+        @touch($tmpDb);
     }
+}
+
+// Fallback to SQLite in /tmp if no external database is configured
+if (!getenv('DB_CONNECTION') && empty($_SERVER['DB_CONNECTION'])) {
+    putenv('DB_CONNECTION=sqlite');
+    $_ENV['DB_CONNECTION'] = 'sqlite';
+    $_SERVER['DB_CONNECTION'] = 'sqlite';
+}
+if ((getenv('DB_CONNECTION') === 'sqlite' || $_SERVER['DB_CONNECTION'] === 'sqlite') && (!getenv('DB_DATABASE') || getenv('DB_DATABASE') === 'database/database.sqlite')) {
+    putenv('DB_DATABASE=/tmp/database.sqlite');
+    $_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
+    $_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
 }
 
 // Set SCRIPT_NAME to /index.php so Laravel properly routes root and sub-paths
