@@ -47,7 +47,7 @@ Configure the following environment variables in the **Vercel Dashboard** under 
 | `CACHE_STORE` | `array` | In-memory cache for serverless invocations |
 | `LOG_CHANNEL` | `stderr` | Sends logs to Vercel Function logs |
 
-> **Note on SQLite:** For fast preview/testing without an external database, SQLite will automatically initialize inside `/tmp/database.sqlite`. However, data written to `/tmp` is ephemeral and does not persist across cold starts. Use a managed MySQL or PostgreSQL database for persistent production data.
+> **Note on SQLite & Instant Previews:** The repository includes `database/seed_database.sqlite` (containing all 14 seeded institutional users, academic sessions, and clinical postings). When running on Vercel without an external SQL database, `api/index.php` automatically copies this template to `/tmp/database.sqlite` and uses a fallback `APP_KEY`. For persistent multi-region production data, configure a managed MySQL or PostgreSQL database.
 
 ---
 
