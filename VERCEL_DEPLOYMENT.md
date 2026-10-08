@@ -20,8 +20,8 @@ When importing this repository into Vercel:
 1. **Framework Preset:** Select **Other**.
 2. **Root Directory:** `./` (default).
 3. **Build & Development Settings:**
-   - **Build Command:** `npm run build` (configured automatically in `vercel.json`).
-   - **Output Directory:** Leave blank (Vercel routes requests via `vercel.json`).
+   - **Build Command:** Leave blank or disabled (assets are pre-compiled in `public/build`).
+   - **Output Directory:** Leave blank (handled via `vercel.json` routing).
    - **Install Command:** Leave default.
 
 ---
