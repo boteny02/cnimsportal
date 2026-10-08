@@ -30,5 +30,8 @@ if (getenv('DB_CONNECTION') === 'sqlite' || (!getenv('DB_CONNECTION') && getenv(
     }
 }
 
+// Set SCRIPT_NAME to /index.php so Laravel properly routes root and sub-paths
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 // Forward execution to Laravel's main front controller
 require __DIR__ . '/../public/index.php';

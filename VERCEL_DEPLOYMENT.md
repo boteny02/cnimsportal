@@ -21,7 +21,7 @@ When importing this repository into Vercel:
 2. **Root Directory:** `./` (default).
 3. **Build & Development Settings:**
    - **Build Command:** Handled by `node build.js` (detects Vercel and serves pre-compiled `public/build` assets).
-   - **Output Directory:** `public` (explicitly configured in `vercel.json`).
+   - **Output Directory:** `dist` (configured in `vercel.json`; static assets only, protecting `index.php`).
    - **Install Command:** Leave default.
 
 ---
