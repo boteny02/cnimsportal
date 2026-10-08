@@ -52,6 +52,19 @@ if ((getenv('DB_CONNECTION') === 'sqlite' || $_SERVER['DB_CONNECTION'] === 'sqli
     $_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
 }
 
+// Ensure HTTPS protocol detection for Vercel reverse proxy
+if (getenv('VERCEL') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
+}
+
+// Fallback ASSET_URL to root-relative path to prevent protocol-mismatched assets
+if (!getenv('ASSET_URL') && empty($_SERVER['ASSET_URL'])) {
+    putenv('ASSET_URL=/');
+    $_ENV['ASSET_URL'] = '/';
+    $_SERVER['ASSET_URL'] = '/';
+}
+
 // Set SCRIPT_NAME to /index.php so Laravel properly routes root and sub-paths
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 
