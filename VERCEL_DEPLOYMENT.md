@@ -17,11 +17,11 @@ This guide provides instructions for deploying the **CNIMS Portal** (Laravel 13 
 
 When importing this repository into Vercel:
 
-1. **Framework Preset:** Select **Other**.
+1. **Framework Preset:** Select **Other** (configured as `"framework": null` in `vercel.json`).
 2. **Root Directory:** `./` (default).
 3. **Build & Development Settings:**
-   - **Build Command:** Leave blank or disabled (assets are pre-compiled in `public/build`).
-   - **Output Directory:** Leave blank (handled via `vercel.json` routing).
+   - **Build Command:** Handled by `node build.js` (detects Vercel and serves pre-compiled `public/build` assets).
+   - **Output Directory:** `public` (explicitly configured in `vercel.json`).
    - **Install Command:** Leave default.
 
 ---
